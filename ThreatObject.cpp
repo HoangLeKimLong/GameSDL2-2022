@@ -208,7 +208,7 @@ bool ThreatObject::checkToMap(Map& gamemap)
     // Tính toán vị trí của nhân vật trên TileMap
     int leftTile = (rect.x + 10) / TILE_SIZE;
     int rightTile = (rect.x + ENEMY_WIDTH - 20) / TILE_SIZE;
-    int topTile =   (rect.y )/ TILE_SIZE;
+    int topTile =   (rect.y + 10)/ TILE_SIZE;
     int bottomTile =(rect.y+ ENEMY_HEIGHT ) / TILE_SIZE;
      // Kiểm tra xem nhân vật có đang va chạm với một ô vuông trên TileMap không
     for (int i = topTile ; i <= bottomTile; i++) {

@@ -743,7 +743,7 @@
 	<vector>
 	"ThreatObject.hpp"
 
-1681564960 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\entity.hpp
+1682257061 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\entity.hpp
 	<iostream>
 	<SDL.h>
 	<vector>
@@ -780,7 +780,7 @@
 	<SDL_image.h>
 	"BulletObject.hpp"
 
-1681564960 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\common_func.hpp
+1682241115 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\common_func.hpp
 	"RenderWindow.hpp"
 	<vector>
 	<stdint.h>
@@ -789,7 +789,7 @@
 	"Common_Func.hpp"
 	"RenderWindow.hpp"
 
-1681828037 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\entity.cpp
+1682258150 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\entity.cpp
 	"Entity.hpp"
 	"RenderWindow.hpp"
 	"Common_Func.hpp"
@@ -798,7 +798,7 @@
 1681564960 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\game.cpp
 	"Game.hpp"
 
-1681831381 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\main.cpp
+1682261537 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\main.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
@@ -809,21 +809,23 @@
 	"BulletObject.hpp"
 	"Game.hpp"
 	"ThreatObject.hpp"
+	"MenuGame.hpp"
 
-1681564960 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\map.cpp
+1681912522 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\map.cpp
 	"Map.hpp"
 	"Common_Func.hpp"
 	"RenderWindow.hpp"
 	<bits/stdc++.h>
 
-1681564960 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.cpp
+1682261499 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.cpp
 	"MenuGame.hpp"
 
-1681564960 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.hpp
+1682262555 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.hpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
 	"RenderWindow.hpp"
+	"Map.hpp"
 
 1681564960 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\renderwindow.cpp
 	<SDL.h>
@@ -845,10 +847,26 @@
 	"ThreatObject.hpp"
 	"RenderWindow.hpp"
 
-1681827734 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\threatobject.cpp
+1682260374 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\threatobject.cpp
 	"ThreatObject.hpp"
 	"Common_Func.hpp"
 	"RenderWindow.hpp"
 	<cmath>
 	<SDL.h>
+
+1682249895 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\entity_2.cpp
+	"Entity_2.hpp"
+
+1682249910 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\entity_2.hpp
+	"Map.hpp"
+	"BulletObject.hpp"
+	"Game.hpp"
+	"ThreatObject.hpp"
+	"Entity.hpp"
+
+1682258150 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\playertwo.cpp
+	"PlayerTwo.hpp"
+
+1682258249 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\playertwo.hpp
+	"Entity.hpp"
 

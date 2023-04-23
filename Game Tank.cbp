@@ -47,6 +47,8 @@
 		<Unit filename="Common_Func.hpp" />
 		<Unit filename="Entity.cpp" />
 		<Unit filename="Entity.hpp" />
+		<Unit filename="Entity_2.cpp" />
+		<Unit filename="Entity_2.hpp" />
 		<Unit filename="Game.cpp" />
 		<Unit filename="Game.hpp" />
 		<Unit filename="Map.cpp" />

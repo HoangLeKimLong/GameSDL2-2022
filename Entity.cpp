@@ -3,17 +3,17 @@
 #include "Common_Func.hpp"
 #include "ThreatObject.hpp"
 using namespace std;
-Entity::Entity()
+Entity::Entity(int posX_ , int posY_ ,const char* file)
 {
-    posX=0;
-    posY=0;
+    posX=posX_;
+    posY=posY_;
 
     velX=0;
     velY=0;
     is_alive = true;
     lives = 3;
-    gain_star = false;
-
+    tex = Common_Func::loadTexture(file);
+    status = UP;
 }
 void Entity::handleEvent(SDL_Event& event)
 {
@@ -64,11 +64,11 @@ void Entity::handleEvent(SDL_Event& event)
         case SDLK_d: velX-=step; break;
         }
     }
-    //
+
 
 
 }
-void Entity::move(Map& gamemap,Game& game)
+void Entity::move(Map& gamemap)
 {
     lastPosX=posX;
     lastPosY=posY;
@@ -89,7 +89,7 @@ void Entity::move(Map& gamemap,Game& game)
         posY -= velY;
     }
 
-    if(checkCollision(gamemap,game) )
+    if(checkCollision(gamemap) )
        {
             posX=lastPosX;
             posY=lastPosY;
@@ -97,7 +97,7 @@ void Entity::move(Map& gamemap,Game& game)
 }
 
 
-bool Entity::checkCollision(Map& gamemap,Game& game)
+bool Entity::checkCollision(Map& gamemap)
 {
     // Calculate the position of the character on the TileMap
     int leftTile = (posX  ) / TILE_SIZE;
@@ -128,8 +128,7 @@ void Entity::render(SDL_Texture* tex)
     SDL_RenderCopy(RenderWindow::renderer,tex,NULL,&rect);
     tex = NULL;
     SDL_DestroyTexture(tex);
-    rect.x = 0;
-    rect.y = 0;
+
     delete tex;
 
 }

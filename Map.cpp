@@ -6,7 +6,7 @@ using namespace std;
 void Map::loadMap(const char* file_csv)
 {
     std::ifstream file(file_csv);
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < map_y; i++) {
 		std::string s;
 		file >> s;
 		std::stringstream ss(s);
@@ -29,8 +29,8 @@ void Map::loadTileSet(const char* file_tileset,const char* dest)
     SDL_Surface* starSurface = IMG_Load(dest);
     starTexture = SDL_CreateTextureFromSurface(RenderWindow::renderer,starSurface);
 
-    for (int i = 0; i < 20; i++) {
-        for (int j = 0; j < 40; j++) {
+    for (int i = 0; i < map_y; i++) {
+        for (int j = 0; j < map_x; j++) {
             tileRect = { j * 32, i * 32, 32, 32 };
             tileset.push_back(tileRect);
         }

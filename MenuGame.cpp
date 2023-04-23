@@ -2,56 +2,109 @@
 #include "MenuGame.hpp"
 MenuGame::MenuGame()
 {
-    play = false;
+
 }
 MenuGame::~MenuGame()
 {
 
 }
-void MenuGame::makeButton(const char* play_img,const char* quit_img)
+void MenuGame::runMenu(SDL_Event& e,Button playButton,Button quitButton,
+                       bool& quit,bool& gameRunning,
+                       RenderWindow window,
+                       SDL_Texture* menu_pic)
 {
-    start_button.createButton(play_img,BUTTON_X,BUTTON_Y);
-    quit_button.createButton(quit_img,BUTTON_X , BUTTON_Y + BUTTON_MARGIN);
-}
-void MenuGame::runMenu(SDL_Event& ev)
-{
-    bool quit = false;
-    while( !quit )
-    {
-        // handle action
-        while(SDL_PollEvent(&ev))
-        {
-            // if press mousebutton
-            if(ev.type == SDL_MOUSEBUTTONDOWN)
-            {
-                 if (ev.button.x >= start_button.rect.x && ev.button.x <= start_button.rect.x + start_button.rect.w
-                        && ev.button.y >= start_button.rect.y && ev.button.y <= start_button.rect.y + start_button.rect.h) {
+    // Xử lý sự kiện
+        while (SDL_PollEvent(&e)) {
+            // Nhấp chuột
+            if (e.type == SDL_MOUSEBUTTONDOWN) {
+                // Kiểm tra xem chuột có trên nút Play không
+                if (e.button.x >= playButton.rect.x && e.button.x <= playButton.rect.x + playButton.rect.w
+                        && e.button.y >= playButton.rect.y && e.button.y <= playButton.rect.y + playButton.rect.h) {
                     std::cout << "Play button clicked!" << std::endl;
-                    play = true;
+                    gameRunning = true;
+                    quit = true;
+                }
+                // Kiểm tra xem chuột có trên nút Quit không
+                else if (e.button.x >= quitButton.rect.x && e.button.x <= quitButton.rect.x + quitButton.rect.w
+                        && e.button.y >= quitButton.rect.y && e.button.y <= quitButton.rect.y + quitButton.rect.h) {
+                    gameRunning = false;
                     quit = true;
                 }
             }
-            // Kiểm tra xem chuột có trên nút Quit không
-                else if (ev.button.x >= quit_button.rect.x && ev.button.x <= quit_button.rect.x + quit_button.rect.w
-                        && ev.button.y >= quit_button.rect.y && ev.button.y <= quit_button.rect.y + quit_button.rect.h) {
+            // Nhấn phím ESC
+            else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) {
+                quit = true;
+            }
+            // Sự kiện thoát khỏi cửa sổ
+            else if (e.type == SDL_QUIT) {
+                    gameRunning = false;
+                quit = true;
+            }
+        }
+
+        // Xóa màn hình
+        SDL_RenderClear(window.renderer);
+
+        // Vẽ các nút lên màn hình
+        SDL_Rect dest = { 0,0,1280,640};
+        SDL_RenderCopy(window.renderer,menu_pic,NULL,&dest);
+        SDL_RenderCopy(window.renderer, playButton.texture, NULL, &playButton.rect);
+        SDL_RenderCopy(window.renderer, quitButton.texture, NULL, &quitButton.rect);
+
+        // Cập nhật màn hình
+        SDL_RenderPresent(window.renderer);
+        SDL_Delay(300);
+}
+void MenuGame::chooseLevel(SDL_Event& e,Button level1,Button level2,Button quitButton
+                           ,bool& quit,bool& gameRunning
+                           ,RenderWindow window,
+                           SDL_Texture* menu_pic,Map& gamemap)
+{
+    // Xử lý sự kiện
+    while (SDL_PollEvent(&e)) {
+            // Nhấp chuột
+            if (e.type == SDL_MOUSEBUTTONDOWN) {
+                // Kiểm tra xem chuột có trên nút level1 không
+                if (e.button.x >= level1.rect.x && e.button.x <= level1.rect.x + level1.rect.w
+                        && e.button.y >= level1.rect.y && e.button.y <= level1.rect.y + level1.rect.h) {
+                    std::cout << "Map 1 button clicked!" << std::endl;
+                    gamemap.loadMap("res/map_level/1.csv");
                     quit = true;
                     }
-            // quit
-            else if (ev.type == SDL_QUIT) {
-                quit = true;
+                // Kiểm tra xem chuột có trên nút level2 không
+                else if (e.button.x >= level2.rect.x && e.button.x <= level2.rect.x + level2.rect.w
+                        && e.button.y >= level2.rect.y && e.button.y <= level2.rect.y + level2.rect.h) {
+                    std::cout << "Map 2 button clicked!" << std::endl;
+                    gamemap.loadMap("res/map_level/map2.csv");
+                    quit = true;
+                    }
+                 // Kiểm tra xem chuột có trên nút Quit không
+                else if (e.button.x >= quitButton.rect.x && e.button.x <= quitButton.rect.x + quitButton.rect.w
+                        && e.button.y >= quitButton.rect.y && e.button.y <= quitButton.rect.y + quitButton.rect.h) {
+                    gameRunning = false;
+                    quit = true;
+                    }
                 }
 
+
+            // Sự kiện thoát khỏi cửa sổ
+            else if (e.type == SDL_QUIT) {
+                gameRunning = false;
+                quit = true;
+            }
         }
-         // Xóa màn hình
-            SDL_RenderClear(RenderWindow::renderer);
 
-            // Vẽ các nút lên màn hình
-            SDL_QueryTexture(start_button.texture,NULL,NULL,&start_button.rect.w,&start_button.rect.h);
-            SDL_RenderCopy(RenderWindow::renderer, start_button.texture, NULL, &start_button.rect);
-            SDL_RenderCopy(RenderWindow::renderer, quit_button.texture, NULL, &quit_button.rect);
+        // Xóa màn hình
+        SDL_RenderClear(window.renderer);
 
-            // Cập nhật màn hình
-            SDL_SetRenderDrawColor(RenderWindow::renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-            SDL_RenderPresent(RenderWindow::renderer);
-    }
+        // Vẽ các nút lên màn hình
+        SDL_Rect dest = { 0,0,1280,640};
+        SDL_RenderCopy(window.renderer,menu_pic,NULL,&dest);
+        SDL_RenderCopy(window.renderer, level1.texture, NULL, &level1.rect);
+        SDL_RenderCopy(window.renderer, level2.texture, NULL, &level2.rect);
+        SDL_RenderCopy(window.renderer, quitButton.texture, NULL, &quitButton.rect);
+
+        // Cập nhật màn hình
+        SDL_RenderPresent(window.renderer);
+
 }

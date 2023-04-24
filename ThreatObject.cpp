@@ -11,6 +11,7 @@ ThreatObject::ThreatObject()
     rect.h =64;
     enemy_tex = Common_Func::loadTexture("res/Enemy_res/Hull_04_UP.png");
     status_val = DOWN_;
+    int lives = 2;
     is_alive = true;
     last_bullet_time = SDL_GetTicks();
 }
@@ -20,8 +21,10 @@ ThreatObject::~ThreatObject()
 }
 
 
-void ThreatObject::moveRandomly(Map& gamemap,Entity& player,ThreatObject* p_threat)
+void ThreatObject::moveRandomly(Map& gamemap,Entity& player,ThreatObject* p_threat,int index_bot,vector<ThreatObject*> list_)
 {
+
+
     srand((int)time(0));
     lastPosX=rect.x;
     lastPosY=rect.y;
@@ -32,7 +35,7 @@ void ThreatObject::moveRandomly(Map& gamemap,Entity& player,ThreatObject* p_thre
         SDL_DestroyTexture(enemy_tex);
         enemy_tex = Common_Func::loadTexture("res/Enemy_res/Hull_04_DOWN.png");
         rect.y += speed;
-        if( checkToMap(gamemap))
+        if( checkToMap(gamemap) || touch_player(player,p_threat) || touch_others(list_,index_bot,p_threat))
         {
             status_val = rand() % 4;
         }
@@ -41,7 +44,7 @@ void ThreatObject::moveRandomly(Map& gamemap,Entity& player,ThreatObject* p_thre
         SDL_DestroyTexture(enemy_tex);
         enemy_tex = Common_Func::loadTexture("res/Enemy_res/Hull_04_LEFT.png");
         rect.x -= speed;
-        if( checkToMap(gamemap))
+        if( checkToMap(gamemap) || touch_player(player,p_threat)|| touch_others(list_,index_bot,p_threat))
         {
             status_val = rand() % 4;
         }
@@ -50,7 +53,7 @@ void ThreatObject::moveRandomly(Map& gamemap,Entity& player,ThreatObject* p_thre
         SDL_DestroyTexture(enemy_tex);
         enemy_tex = Common_Func::loadTexture("res/Enemy_res/Hull_04_UP.png");
         rect.y -= speed;
-        if( checkToMap(gamemap))
+        if( checkToMap(gamemap) || touch_player(player,p_threat)|| touch_others(list_,index_bot,p_threat))
         {
             status_val = rand() % 4;
         }
@@ -59,7 +62,7 @@ void ThreatObject::moveRandomly(Map& gamemap,Entity& player,ThreatObject* p_thre
         SDL_DestroyTexture(enemy_tex);
         enemy_tex = Common_Func::loadTexture("res/Enemy_res/Hull_04_RIGHT.png");
         rect.x += speed;
-        if( checkToMap(gamemap))
+        if( checkToMap(gamemap) || touch_player(player,p_threat)|| touch_others(list_,index_bot,p_threat))
         {
             status_val = rand() % 4;
         }
@@ -201,10 +204,9 @@ void ThreatObject::RandomShot(Map& gamemap,Entity& player,ThreatObject* p_threat
 
 bool ThreatObject::checkToMap(Map& gamemap)
 {
-    if(rect.x > RenderWindow::SCREEN_WIDTH - ENEMY_WIDTH + 10|| rect.x < 0 || rect.y >RenderWindow::SCREEN_HEIGHT|| rect.y <0)
-    {
-        return true;
-    }
+    if(                     rect.x < 0 || rect.y <0 ||
+       rect.x + ENEMY_WIDTH > RenderWindow::SCREEN_WIDTH  || rect.y + ENEMY_HEIGHT > RenderWindow::SCREEN_HEIGHT )
+       return true;
     // Tính toán vị trí của nhân vật trên TileMap
     int leftTile = (rect.x + 10) / TILE_SIZE;
     int rightTile = (rect.x + ENEMY_WIDTH - 20) / TILE_SIZE;
@@ -222,15 +224,38 @@ bool ThreatObject::checkToMap(Map& gamemap)
 }
 bool ThreatObject::touch_player(Entity& player,ThreatObject* p_threat)
 {
-    if (player.posX + player.PLAYER_WIDTH > p_threat->rect.x - 10&&
-        //threat is on the right of player
-        player.posX < p_threat->rect.x + p_threat->rect.w - 20&&
+    if (player.posX + player.PLAYER_WIDTH > p_threat->rect.x - 20&&
         //threat is on the left of player
-        player.posY + player.PLAYER_HEIGHT > p_threat->rect.y - 15&&
+        player.posX < p_threat->rect.x + p_threat->rect.w - 20&&
+        //threat is on the right of player
+        player.posY + player.PLAYER_HEIGHT > p_threat->rect.y - 25&&
         //threat is under the player
-        player.posY < p_threat->rect.y + p_threat->rect.h - 17 ) {
+        player.posY < p_threat->rect.y + p_threat->rect.h - 20 ) {
         //threat is on the player
         return true;
+    }
+    return false;
+}
+bool ThreatObject::touch_others(vector<ThreatObject*> threat_list,int index,ThreatObject* p_threat)
+{
+    for(int i =0 ; i< 3; i++)
+    {
+            if( i != index )
+            {
+                    //check va cham
+                    if (p_threat->rect.x + p_threat->ENEMY_WIDTH + threat_list[i]->rect.x - 20&&
+                    //threat is on the left of player
+                    p_threat->rect.x <threat_list[i]->rect.x + threat_list[i]->ENEMY_WIDTH - 20&&
+                    //threat is on the right of player
+                    p_threat->rect.y + threat_list[i]->ENEMY_HEIGHT > threat_list[i]->rect.y - 25&&
+                    //threat is under the player
+                    p_threat->rect.y <threat_list[i]->rect.y + threat_list[i]->ENEMY_HEIGHT - 20 ) {
+                //threat is on the player
+                    return true;
+                }
+
+            }
+            else i++;
     }
     return false;
 }

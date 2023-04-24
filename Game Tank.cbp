@@ -47,14 +47,14 @@
 		<Unit filename="Common_Func.hpp" />
 		<Unit filename="Entity.cpp" />
 		<Unit filename="Entity.hpp" />
-		<Unit filename="Entity_2.cpp" />
-		<Unit filename="Entity_2.hpp" />
 		<Unit filename="Game.cpp" />
 		<Unit filename="Game.hpp" />
 		<Unit filename="Map.cpp" />
 		<Unit filename="Map.hpp" />
 		<Unit filename="MenuGame.cpp" />
 		<Unit filename="MenuGame.hpp" />
+		<Unit filename="PlayerTwo.cpp" />
+		<Unit filename="PlayerTwo.hpp" />
 		<Unit filename="RenderWindow.cpp" />
 		<Unit filename="RenderWindow.hpp" />
 		<Unit filename="TextObject.cpp" />

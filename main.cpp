@@ -18,7 +18,7 @@ using namespace std;
 
 
 
-const int FPS = 60;
+const int FPS = 70;
 const int frameDelay= 1000/ FPS;
 
 Uint32 frameStart;
@@ -31,10 +31,10 @@ vector<ThreatObject*> make_threat_list(Map& gamemap)
     {
         ThreatObject* p_object = new ThreatObject[enemy_quantity];
         p_object->rect.x = 1000;
-        p_object->rect.y = 150*i;
+        p_object->rect.y = 280*i;
         while(p_object->checkToMap(gamemap))
         {
-            p_object->rect.y += 100;
+            p_object->rect.y += 200;
         }
 
         list_threat.push_back(p_object);
@@ -43,23 +43,23 @@ vector<ThreatObject*> make_threat_list(Map& gamemap)
     return list_threat;
 }
 Button createButton(const char* imagePath, int x, int y,RenderWindow window) {
-    // Tạo nút mới
-    Button button;
+        // Tạo nút mới
+        Button button;
 
-    // Tải hình ảnh và chuyển đổi thành texture
-    button.texture = window.loadTexture(imagePath);
-    if (button.texture == NULL) {
-        std::cout << "Failed to load button image"<<endl;
-    }
+        // Tải hình ảnh và chuyển đổi thành texture
+        button.texture = window.loadTexture(imagePath);
+        if (button.texture == NULL) {
+            std::cout << "Failed to load button image"<<endl;
+        }
 
-// Lấy thông tin kích thước của texture
-SDL_QueryTexture(button.texture, NULL, NULL, &button.rect.w, &button.rect.h);
+    // Lấy thông tin kích thước của texture
+    SDL_QueryTexture(button.texture, NULL, NULL, &button.rect.w, &button.rect.h);
 
-// Đặt vị trí của nút
-button.rect.x = x;
-button.rect.y = y;
+    // Đặt vị trí của nút
+    button.rect.x = x;
+    button.rect.y = y;
 
-return button;
+    return button;
 }
 
 
@@ -101,11 +101,18 @@ int main(int argc,char* argv[])
         menu.runMenu(e,playButton,quitButton,quit,gameRunning,window,menu_pic);
     }
     quit = false;
+    while(!quit&& gameRunning)
+    {
+        menu.chooseMode(e,mode_com,mode_player,quitButton,quit,gameRunning,window,menu_pic);
+    }
+    quit = false;
     while(!quit && gameRunning)
     {
         menu.chooseLevel(e,level1,level2,quitButton,quit,gameRunning,window,menu_pic,gamemap);
     }
-    while(gameRunning )
+    if( menu.mode == 0)
+    {
+        while(gameRunning )
         {
 
             frameStart=SDL_GetTicks();
@@ -147,7 +154,7 @@ int main(int argc,char* argv[])
                     {
                         threat_list[i]->make_bullet(threat_list[i]);
                         threat_list[i]->RandomShot(gamemap,player1,threat_list[i]);
-                        threat_list[i]->moveRandomly(gamemap,player1,threat_list[i]);
+                        threat_list[i]->moveRandomly(gamemap,player1,threat_list[i],i,threat_list);
                         threat_list[i]->render();
                     }
                 }
@@ -179,7 +186,7 @@ int main(int argc,char* argv[])
             window.display();
             window.clear();
         }
-
+    }
 
     window.cleanUp();
     SDL_DestroyTexture(menu_pic);

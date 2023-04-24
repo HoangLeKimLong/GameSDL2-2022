@@ -53,7 +53,7 @@ public:
     bool is_alive;
 
     int lives;
-
+    Uint32 last_bullet_time;
 private:
     vector<BulletObject*> p_bullet_list;
 };

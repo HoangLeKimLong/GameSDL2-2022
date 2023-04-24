@@ -14,6 +14,7 @@ Entity::Entity(int posX_ , int posY_ ,const char* file)
     lives = 3;
     tex = Common_Func::loadTexture(file);
     status = UP;
+    last_bullet_time = SDL_GetTicks();
 }
 void Entity::handleEvent(SDL_Event& event)
 {
@@ -132,23 +133,34 @@ void Entity::render(SDL_Texture* tex)
     delete tex;
 
 }
-void Entity::handleInputAction(SDL_Event& event,Entity& player)
+void Entity::handleInputAction(SDL_Event& event, Entity& player)
 {
-    if(event.type == SDL_KEYDOWN&& event.key.repeat == 0)
+    // Set the time interval between bullets
+    const Uint32 BULLET_INTERVAL = 1500; // 3000 milliseconds = 3 seconds
+
+    // Get the current time
+    Uint32 current_time = SDL_GetTicks();
+
+    // Check if enough time has passed since the last bullet was fired
+    if (current_time - last_bullet_time >= BULLET_INTERVAL)
     {
-        // if pressed Enter button,create a bullet
-        if(event.key.keysym.sym == SDLK_RETURN)
+        if (event.type == SDL_KEYDOWN && event.key.repeat == 0)
         {
-            BulletObject* p_bullet = new BulletObject();
-            p_bullet->setPosBullet( player );
-            p_bullet->is_move = true;
+            // if pressed Enter button, create a bullet
+            if (event.key.keysym.sym == SDLK_RETURN)
+            {
+                BulletObject* p_bullet = new BulletObject();
+                p_bullet->setPosBullet(player);
+                p_bullet->is_move = true;
+                p_bullet_list.push_back(p_bullet);
 
-            p_bullet_list.push_back(p_bullet);
-
+                // Record the time at which the bullet was created
+                last_bullet_time = current_time;
+            }
         }
     }
-
 }
+
 void Entity::handleBullet(Map& gamemap,Entity& player,vector<ThreatObject*> threat_list)
 {
     for(int i=0;i< p_bullet_list.size();i++)
@@ -223,7 +235,7 @@ bool Entity::meet_enemy(BulletObject* p_bullet,ThreatObject* p_threat)
             p_threat->rect.y + p_threat->rect.h - 20> p_bullet->rect.y
             )
             {
-                p_threat->is_alive = false;
+                    p_threat->is_alive = false;
                     return true;
 
             }

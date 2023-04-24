@@ -16,7 +16,7 @@ class BulletObject
 {
 public:
     BulletObject();
-    const int speed = 4;
+    const int speed = 6;
     const int BULLET_SIZE = 32;
 
     bool checkCollision(Map& gamemap);

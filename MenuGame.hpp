@@ -36,4 +36,5 @@ public:
                     RenderWindow window,SDL_Texture* menu_pic);
 
     enum MODE{ COM,PLAYER};
+    int mode ;
 };

@@ -27,7 +27,7 @@ public:
     bool checkToMap(Map& gamemap);
 
 
-    void moveRandomly(Map& gamemap,Entity& player,ThreatObject* p_threat);
+    void moveRandomly(Map& gamemap,Entity& player,ThreatObject* p_threat,int index_bot,vector<ThreatObject*> list_);
     void render();
     //handle bullet
     std::vector<BulletObject*> get_bullet_list() {return bullet_list;};
@@ -36,6 +36,7 @@ public:
     void make_bullet(ThreatObject* p_threat);
     bool meet_player(BulletObject* p_bullet,Entity& player);
     bool touch_player(Entity& player,ThreatObject* p_threat);
+    bool touch_others(vector<ThreatObject*> threat_list,int index,ThreatObject* p_threat);
     void RandomShot(Map& gamemap,Entity& player,ThreatObject* p_threat);
     // variables
     Uint32 last_bullet_time ;
@@ -53,8 +54,9 @@ public:
         LEFT_ = 2,
         RIGHT_ = 3
     };
+    int lives;
     bool is_alive;
-
+    int index_ ;
 private:
     std::vector<BulletObject*> bullet_list;
 };

@@ -9,20 +9,21 @@
 			<Target title="Debug">
 				<Option output="bin/Debug/SDL_Platform" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="D:/setupSDLlib/sdlmingtarz/SDL2-2.26.3/i686-w64-mingw32/include/SDL2" />
+					<Add directory="D:/setupSDLlib/SDL2-2.26.3/i686-w64-mingw32/include/SDL2" />
 					<Add directory="D:/setupSDLlib/SDL2_image-2.0.5/i686-w64-mingw32/include/SDL2" />
-					<Add directory="D:/setupSDLlib/SDL2_ttf-2.20.2/i686-w64-mingw32/include/SDL2" />
+					<Add directory="D:/setupSDLlib/SDL2_mixer-2.6.3/i686-w64-mingw32/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-lmingw32 -lSDL2main -lSDL2" />
-					<Add option="-lSDL2_image  -ISDL2_ttf" />
-					<Add directory="D:/setupSDLlib/sdlmingtarz/SDL2-2.26.3/i686-w64-mingw32/lib" />
+					<Add option="-lSDL2_image  -ISDL2_mixer" />
+					<Add directory="D:/setupSDLlib/SDL2-2.26.3/i686-w64-mingw32/lib" />
 					<Add directory="D:/setupSDLlib/SDL2_image-2.0.5/i686-w64-mingw32/lib" />
-					<Add directory="D:/setupSDLlib/SDL2_ttf-2.20.2/i686-w64-mingw32/lib" />
+					<Add directory="D:/setupSDLlib/SDL2_mixer-2.6.3/i686-w64-mingw32/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -40,25 +41,25 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="D:/setupSDLlib/SDL2_mixer-2.6.3/i686-w64-mingw32/include/SDL2" />
 		</Compiler>
+		<Linker>
+			<Add option="-Imingw-32 -ISDL2  -ISDL2_main -ISDL2_mixer  -ISDL2_image" />
+			<Add directory="D:/setupSDLlib/SDL2_mixer-2.6.3/i686-w64-mingw32/lib" />
+		</Linker>
+		<Unit filename="Audio.hpp" />
 		<Unit filename="BulletObject.cpp" />
 		<Unit filename="BulletObject.hpp" />
 		<Unit filename="Common_Func.cpp" />
 		<Unit filename="Common_Func.hpp" />
 		<Unit filename="Entity.cpp" />
 		<Unit filename="Entity.hpp" />
-		<Unit filename="Game.cpp" />
-		<Unit filename="Game.hpp" />
 		<Unit filename="Map.cpp" />
 		<Unit filename="Map.hpp" />
 		<Unit filename="MenuGame.cpp" />
 		<Unit filename="MenuGame.hpp" />
-		<Unit filename="PlayerTwo.cpp" />
-		<Unit filename="PlayerTwo.hpp" />
 		<Unit filename="RenderWindow.cpp" />
 		<Unit filename="RenderWindow.hpp" />
-		<Unit filename="TextObject.cpp" />
-		<Unit filename="TextObject.hpp" />
 		<Unit filename="ThreatObject.cpp" />
 		<Unit filename="ThreatObject.hpp" />
 		<Unit filename="main.cpp" />

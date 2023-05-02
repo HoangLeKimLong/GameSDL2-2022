@@ -36,8 +36,9 @@ public:
     void make_bullet(ThreatObject* p_threat);
     bool meet_player(BulletObject* p_bullet,Entity& player);
     bool touch_player(Entity& player,ThreatObject* p_threat);
-    bool touch_others(vector<ThreatObject*> threat_list,int index,ThreatObject* p_threat);
+
     void RandomShot(Map& gamemap,Entity& player,ThreatObject* p_threat);
+    void clean(vector<ThreatObject*> threat_list);
     // variables
     Uint32 last_bullet_time ;
     SDL_Rect rect;
@@ -57,6 +58,7 @@ public:
     int lives;
     bool is_alive;
     int index_ ;
+    int last_status ;
 private:
     std::vector<BulletObject*> bullet_list;
 };

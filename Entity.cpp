@@ -3,7 +3,7 @@
 #include "Common_Func.hpp"
 #include "ThreatObject.hpp"
 using namespace std;
-Entity::Entity(int posX_ , int posY_ ,const char* file)
+Entity::Entity(int posX_ , int posY_ ,const char* file,int index_p)
 {
     posX=posX_;
     posY=posY_;
@@ -15,58 +15,102 @@ Entity::Entity(int posX_ , int posY_ ,const char* file)
     tex = Common_Func::loadTexture(file);
     status = UP;
     last_bullet_time = SDL_GetTicks();
+    index_player = index_p;
+    gain_coin = false;
 }
 void Entity::handleEvent(SDL_Event& event)
 {
     //ìf a key was pressed
-    if(event.type == SDL_KEYDOWN&& event.key.repeat == 0)
+    if(this->index_player == 1)
     {
-        //Adjust the velocity
-        switch(event.key.keysym.sym)
+        if(event.type == SDL_KEYDOWN&& event.key.repeat == 0)
         {
-        case SDLK_w: velY-=step;
-                    SDL_DestroyTexture(tex);
-                    tex=Common_Func::loadTexture("res/tankres/Hull_01_W.png");
-                    status = UP;
+            //Adjust the velocity
+            switch(event.key.keysym.sym)
+            {
+            case SDLK_w: velY-=step;
+                        SDL_DestroyTexture(tex);
+                        tex=Common_Func::loadTexture("res/tankres/Hull_01_W.png");
+                        status = UP;
 
-                    break;
-        case SDLK_s:velY+=step;
-                    SDL_DestroyTexture(tex);
-                    tex=Common_Func::loadTexture("res/tankres/Hull_01_S.png");
-                    status = DOWN;
-                    break;
-        case SDLK_a: velX-=step;
-                    SDL_DestroyTexture(tex);
-                    tex=Common_Func::loadTexture("res/tankres/Hull_01_A.png");
-                    status = LEFT;
-                    break;
-        case SDLK_d: velX+=step;
-                    SDL_DestroyTexture(tex);
-                    tex=Common_Func::loadTexture("res/tankres/Hull_01_D.png");
-                    status = RIGHT;
-                    break;
+                        break;
+            case SDLK_s:velY+=step;
+                        SDL_DestroyTexture(tex);
+                        tex=Common_Func::loadTexture("res/tankres/Hull_01_S.png");
+                        status = DOWN;
+                        break;
+            case SDLK_a: velX-=step;
+                        SDL_DestroyTexture(tex);
+                        tex=Common_Func::loadTexture("res/tankres/Hull_01_A.png");
+                        status = LEFT;
+                        break;
+            case SDLK_d: velX+=step;
+                        SDL_DestroyTexture(tex);
+                        tex=Common_Func::loadTexture("res/tankres/Hull_01_D.png");
+                        status = RIGHT;
+                        break;
 
+
+            }
 
         }
-
-    }
-
-
-
-
-    if( event.type == SDL_KEYUP&& event.key.repeat == 0 )
-    {
-        //Adjust the velocity
-        switch(event.key.keysym.sym)
+        if( event.type == SDL_KEYUP&& event.key.repeat == 0 )
         {
-        case SDLK_w: velY+=step; break;
-        case SDLK_s: velY-=step; break;
-        case SDLK_a: velX+=step; break;
-        case SDLK_d: velX-=step; break;
+            //Adjust the velocity
+            switch(event.key.keysym.sym)
+            {
+            case SDLK_w: velY+=step; break;
+            case SDLK_s: velY-=step; break;
+            case SDLK_a: velX+=step; break;
+            case SDLK_d: velX-=step; break;
+            }
         }
     }
+    else
+    {
+        if(event.type == SDL_KEYDOWN&& event.key.repeat == 0)
+        {
+            //Adjust the velocity
+            switch(event.key.keysym.sym)
+            {
+            case SDLK_UP: velY-=step;
+                        SDL_DestroyTexture(tex);
+                        tex=Common_Func::loadTexture("res/tankres/new_player/Hull_01_W.png");
+                        status = UP;
+
+                        break;
+            case SDLK_DOWN:velY+=step;
+                        SDL_DestroyTexture(tex);
+                        tex=Common_Func::loadTexture("res/tankres/new_player/Hull_01_S.png");
+                        status = DOWN;
+                        break;
+            case SDLK_LEFT: velX-=step;
+                        SDL_DestroyTexture(tex);
+                        tex=Common_Func::loadTexture("res/tankres/new_player/Hull_01_A.png");
+                        status = LEFT;
+                        break;
+            case SDLK_RIGHT: velX+=step;
+                        SDL_DestroyTexture(tex);
+                        tex=Common_Func::loadTexture("res/tankres/new_player/Hull_01_D.png");
+                        status = RIGHT;
+                        break;
 
 
+            }
+
+        }
+        if( event.type == SDL_KEYUP&& event.key.repeat == 0 )
+        {
+            //Adjust the velocity
+            switch(event.key.keysym.sym)
+            {
+            case SDLK_UP: velY+=step; break;
+            case SDLK_DOWN: velY-=step; break;
+            case SDLK_LEFT: velX+=step; break;
+            case SDLK_RIGHT: velX-=step; break;
+            }
+        }
+    }
 
 }
 void Entity::move(Map& gamemap)
@@ -92,6 +136,7 @@ void Entity::move(Map& gamemap)
 
     if(checkCollision(gamemap) )
        {
+            cout<< "Collided!"<<endl;
             posX=lastPosX;
             posY=lastPosY;
         }
@@ -109,7 +154,7 @@ bool Entity::checkCollision(Map& gamemap)
     for (int i = topTile ; i <= bottomTile; i++) {
         for (int j = leftTile  ; j <= rightTile; j++) {
 
-            if (gamemap.posTileSet[i][j] != BLANK_TILE ) {
+            if (gamemap.posTileSet[i][j] != BLANK_TILE && gamemap.posTileSet[i][j] != COIN_TILE) {
                 return true; //
             }
         }
@@ -147,16 +192,34 @@ void Entity::handleInputAction(SDL_Event& event, Entity& player)
         if (event.type == SDL_KEYDOWN && event.key.repeat == 0)
         {
             // if pressed Enter button, create a bullet
-            if (event.key.keysym.sym == SDLK_RETURN)
+            if( player.index_player == 1)
             {
-                BulletObject* p_bullet = new BulletObject();
-                p_bullet->setPosBullet(player);
-                p_bullet->is_move = true;
-                p_bullet_list.push_back(p_bullet);
+                if (event.key.keysym.sym == SDLK_j)
+                {
+                    BulletObject* p_bullet = new BulletObject();
+                    p_bullet->setPosBullet(player);
+                    p_bullet->is_move = true;
+                    p_bullet_list.push_back(p_bullet);
 
-                // Record the time at which the bullet was created
-                last_bullet_time = current_time;
+                    // Record the time at which the bullet was created
+                    last_bullet_time = current_time;
+
+                }
             }
+            else
+            {
+                if (event.key.keysym.sym == SDLK_RETURN)
+                {
+                    BulletObject* p_bullet = new BulletObject();
+                    p_bullet->setPosBullet(player);
+                    p_bullet->is_move = true;
+                    p_bullet_list.push_back(p_bullet);
+
+                    // Record the time at which the bullet was created
+                    last_bullet_time = current_time;
+                }
+            }
+
         }
     }
 }
@@ -174,6 +237,15 @@ void Entity::handleBullet(Map& gamemap,Entity& player,vector<ThreatObject*> thre
 
         if(p_bullet->is_move && p_bullet != nullptr)
             {
+
+                if(p_bullet->rect.y  > RenderWindow::SCREEN_HEIGHT)
+                {
+                    p_bullet->is_move=false;
+                    p_bullet->rect.w = 0;
+                    p_bullet->rect.w = 0;
+                    p_bullet->texture = NULL;
+                }
+
                 p_bullet->handleMove(gamemap,player);
                 //if the bullet has collide to the map,delete it
                 if(p_bullet->checkCollision(gamemap))
@@ -219,7 +291,72 @@ void Entity::handleBullet(Map& gamemap,Entity& player,vector<ThreatObject*> thre
 
 
 }
+void Entity::handleBullet(Map& gamemap,Entity& player ,Entity& component)
+{
 
+    for(int i=0;i< p_bullet_list.size();i++)
+    {
+        BulletObject* p_bullet = p_bullet_list.at(i);
+        if( p_bullet == nullptr)
+            {
+                ++i;
+                continue;
+            }
+
+        if(p_bullet->is_move && p_bullet != nullptr)
+            {
+
+                if(p_bullet->rect.y  > RenderWindow::SCREEN_HEIGHT)
+                {
+                    p_bullet->is_move=false;
+                    p_bullet->rect.w = 0;
+                    p_bullet->rect.w = 0;
+                    p_bullet->texture = NULL;
+                }
+
+                p_bullet->handleMove(gamemap,player);
+                //if the bullet has collide to the map,delete it
+                if(p_bullet->checkCollision(gamemap))
+                    {
+                        p_bullet->is_move=false;
+                        p_bullet->rect.w = 0;
+                        p_bullet->rect.w = 0;
+                        p_bullet->texture = NULL;
+
+                    }
+                //if the bullet has collided to the enemy,kill
+                if( meet_another(p_bullet,component))
+                {
+                    p_bullet->is_move=false;
+                    p_bullet->rect.w = 0;
+                    p_bullet->rect.w = 0;
+                    p_bullet->texture = NULL;
+                    component.lives--;
+                    if( component.lives == 0)
+                    {
+                        component.is_alive = false;
+                    }
+                }
+                    if(p_bullet->is_move)
+                    {
+                        p_bullet->render();
+                    }
+                }
+
+
+
+           else
+           {
+               SDL_DestroyTexture(p_bullet->texture);
+               p_bullet_list.erase(p_bullet_list.begin() + i);
+               p_bullet = NULL;
+
+               delete p_bullet;
+           }
+
+    }
+
+}
 bool Entity::meet_enemy(BulletObject* p_bullet,ThreatObject* p_threat)
 {
             if( p_threat->rect.x + 30< p_bullet->rect.x + p_bullet->rect.w
@@ -243,4 +380,30 @@ bool Entity::meet_enemy(BulletObject* p_bullet,ThreatObject* p_threat)
 
 
     return false;
+}
+bool Entity::meet_another(BulletObject* p_bullet,Entity& component)
+{
+    if( component.posX < p_bullet->rect.x + p_bullet->rect.w - 15
+               //left
+                &&
+            component.posX + component.PLAYER_WIDTH > p_bullet->rect.x - 10
+            //right
+            &&
+            component.posY < p_bullet->rect.y + p_bullet->rect.h - 15
+            //up
+            &&
+            //down
+            component.posY + component.PLAYER_HEIGHT > p_bullet->rect.y - 15
+        )
+            {
+
+                    return true;
+
+            }
+    return false;
+
+}
+void Entity::clean()
+{
+    SDL_DestroyTexture(tex);
 }

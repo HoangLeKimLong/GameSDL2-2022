@@ -3,6 +3,7 @@
 #include "RenderWindow.hpp"
 #include <cmath>
 #include <SDL.h>
+#include <vector>
 ThreatObject::ThreatObject()
 {
     rect.x = 0;
@@ -28,15 +29,18 @@ void ThreatObject::moveRandomly(Map& gamemap,Entity& player,ThreatObject* p_thre
     srand((int)time(0));
     lastPosX=rect.x;
     lastPosY=rect.y;
-
     switch( status_val)
     {
     case DOWN_:
         SDL_DestroyTexture(enemy_tex);
         enemy_tex = Common_Func::loadTexture("res/Enemy_res/Hull_04_DOWN.png");
         rect.y += speed;
-        if( checkToMap(gamemap) || touch_player(player,p_threat) || touch_others(list_,index_bot,p_threat))
+        if( checkToMap(gamemap) || touch_player(player,p_threat) )
         {
+            rect.x=lastPosX;
+            rect.y=lastPosY;
+            last_status = DOWN_;
+        ////
             status_val = rand() % 4;
         }
         break;
@@ -44,8 +48,12 @@ void ThreatObject::moveRandomly(Map& gamemap,Entity& player,ThreatObject* p_thre
         SDL_DestroyTexture(enemy_tex);
         enemy_tex = Common_Func::loadTexture("res/Enemy_res/Hull_04_LEFT.png");
         rect.x -= speed;
-        if( checkToMap(gamemap) || touch_player(player,p_threat)|| touch_others(list_,index_bot,p_threat))
+        if( checkToMap(gamemap) || touch_player(player,p_threat))
         {
+            rect.x=lastPosX;
+            rect.y=lastPosY;
+        ////
+            last_status = LEFT_;
             status_val = rand() % 4;
         }
         break;
@@ -53,8 +61,12 @@ void ThreatObject::moveRandomly(Map& gamemap,Entity& player,ThreatObject* p_thre
         SDL_DestroyTexture(enemy_tex);
         enemy_tex = Common_Func::loadTexture("res/Enemy_res/Hull_04_UP.png");
         rect.y -= speed;
-        if( checkToMap(gamemap) || touch_player(player,p_threat)|| touch_others(list_,index_bot,p_threat))
+        if( checkToMap(gamemap) || touch_player(player,p_threat))
         {
+            rect.x=lastPosX;
+            rect.y=lastPosY;
+        ////
+            last_status = UP_;
             status_val = rand() % 4;
         }
         break;
@@ -62,20 +74,18 @@ void ThreatObject::moveRandomly(Map& gamemap,Entity& player,ThreatObject* p_thre
         SDL_DestroyTexture(enemy_tex);
         enemy_tex = Common_Func::loadTexture("res/Enemy_res/Hull_04_RIGHT.png");
         rect.x += speed;
-        if( checkToMap(gamemap) || touch_player(player,p_threat)|| touch_others(list_,index_bot,p_threat))
+        if( checkToMap(gamemap) || touch_player(player,p_threat))
         {
+            rect.x=lastPosX;
+            rect.y=lastPosY;
+        ////
+            last_status = RIGHT_;
             status_val = rand() % 4;
         }
         break;
     }
 
-    if(checkToMap(gamemap) )
-    {
-        rect.x=lastPosX;
-        rect.y=lastPosY;
-        ////
 
-    }
     if( touch_player(player,p_threat))
     {
         rect.x=lastPosX;
@@ -84,6 +94,8 @@ void ThreatObject::moveRandomly(Map& gamemap,Entity& player,ThreatObject* p_thre
         player.posX = player.lastPosX;
         player.posY = player.lastPosY;
     }
+
+
 
 }
 void ThreatObject::make_bullet(ThreatObject* p_threat)
@@ -236,34 +248,21 @@ bool ThreatObject::touch_player(Entity& player,ThreatObject* p_threat)
     }
     return false;
 }
-bool ThreatObject::touch_others(vector<ThreatObject*> threat_list,int index,ThreatObject* p_threat)
-{
-    for(int i =0 ; i< 3; i++)
-    {
-            if( i != index )
-            {
-                    //check va cham
-                    if (p_threat->rect.x + p_threat->ENEMY_WIDTH + threat_list[i]->rect.x - 20&&
-                    //threat is on the left of player
-                    p_threat->rect.x <threat_list[i]->rect.x + threat_list[i]->ENEMY_WIDTH - 20&&
-                    //threat is on the right of player
-                    p_threat->rect.y + threat_list[i]->ENEMY_HEIGHT > threat_list[i]->rect.y - 25&&
-                    //threat is under the player
-                    p_threat->rect.y <threat_list[i]->rect.y + threat_list[i]->ENEMY_HEIGHT - 20 ) {
-                //threat is on the player
-                    return true;
-                }
 
-            }
-            else i++;
-    }
-    return false;
-}
 void ThreatObject::render()
 {
     SDL_QueryTexture(enemy_tex,NULL,NULL,&rect.w,&rect.h);
     rect.w = 64;
     rect.h = 64;
     SDL_RenderCopy(RenderWindow::renderer,enemy_tex,NULL,&rect);
+
+}
+void ThreatObject::clean(vector<ThreatObject*> threat_list)
+{
+    for(int i = 0 ;i < (int)threat_list.size();i++)
+    {
+        SDL_DestroyTexture(threat_list[i]->enemy_tex);
+        delete threat_list[i];
+    }
 
 }

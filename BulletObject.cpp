@@ -12,6 +12,11 @@ BulletObject::BulletObject()
     yvel = 0;
     bullet_type = BULLET_TYPE_0;
 }
+BulletObject::~BulletObject()
+{
+    texture = NULL;
+    SDL_DestroyTexture(texture);
+}
 void BulletObject::setPosBullet(Entity & player)
 {
     if(bullet_type == BULLET_TYPE_0)
@@ -20,22 +25,22 @@ void BulletObject::setPosBullet(Entity & player)
             switch(player.status)
             {
             case UP:
-                    rect.x= player.posX + 15;
-                    rect.y= player.posY  - TILE_SIZE;
+                    rect.x= player.posX + player.PLAYER_WIDTH /2;
+                    rect.y= player.posY ;
                     rect.w= BULLET_SIZE ;
                     rect.h= BULLET_SIZE ;
                     texture = Common_Func::loadTexture("res/bulletres/player_bullet/Heavy_Shell_UP.png");
                     break;
             case DOWN:
-                    rect.x= player.posX + 15;
-                    rect.y= player.posY + TILE_SIZE;
+                    rect.x= player.posX + player.PLAYER_WIDTH/2;
+                    rect.y= player.posY ;
                     rect.w= BULLET_SIZE ;
                     rect.h= BULLET_SIZE ;
                     texture = Common_Func::loadTexture("res/bulletres/player_bullet/Heavy_Shell_DOWN.png");
                     break;
             case LEFT:
-                    rect.x= player.posX - TILE_SIZE;
-                    rect.y= player.posY + 15;
+                    rect.x= player.posX;
+                    rect.y= player.posY + player.PLAYER_HEIGHT/2;
                     rect.w= BULLET_SIZE;
                     rect.h= BULLET_SIZE;
                     texture = Common_Func::loadTexture("res/bulletres/player_bullet/Heavy_Shell_LEFT.png");
@@ -43,8 +48,8 @@ void BulletObject::setPosBullet(Entity & player)
 
 
             case RIGHT:
-                    rect.x= player.posX + TILE_SIZE;
-                    rect.y= player.posY + 15 ;
+                    rect.x= player.posX + player.PLAYER_HEIGHT/2;
+                    rect.y= player.posY + player.PLAYER_HEIGHT/2 ;
                     rect.w= BULLET_SIZE;
                     rect.h= BULLET_SIZE;
                     texture = Common_Func::loadTexture("res/bulletres/player_bullet/Heavy_Shell_RIGHT.png");
@@ -142,11 +147,14 @@ void BulletObject::handleMove(Map& gamemap,ThreatObject* enemy)
         break;
     }
 
-    if(rect.x > RenderWindow::SCREEN_WIDTH|| rect.y > RenderWindow::SCREEN_HEIGHT|| rect.x < 0|| rect.y < 0)
+    if(rect.x > RenderWindow::SCREEN_WIDTH|| rect.y > RenderWindow::SCREEN_HEIGHT || rect.x < 0|| rect.y < 0)
     // if the bullet goes off-screen
     {
+        rect.w = 0;
+        rect.y = 0;
         is_move = false;
-
+        texture = NULL;
+        SDL_DestroyTexture(texture);
     }
 
 

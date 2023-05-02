@@ -2,23 +2,18 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
-#include <SDL_ttf.h>
+
 #include "RenderWindow.hpp"
 #include "Entity.hpp"
 #include "Map.hpp"
 #include "BulletObject.hpp"
-#include "Game.hpp"
 #include "ThreatObject.hpp"
 #include "MenuGame.hpp"
+#include "Common_Func.hpp"
 const int enemy_quantity = 3;
-// Define constants for the size and position of buttons
-
-
 using namespace std;
 
-
-
-const int FPS = 70;
+const int FPS = 60;
 const int frameDelay= 1000/ FPS;
 
 Uint32 frameStart;
@@ -62,27 +57,19 @@ Button createButton(const char* imagePath, int x, int y,RenderWindow window) {
     return button;
 }
 
-
 int main(int argc,char* argv[])
 {
     SDL_Init(SDL_INIT_EVERYTHING);
     SDL_Event e;
 
-
     RenderWindow window("game Tank",RenderWindow::SCREEN_WIDTH,RenderWindow::SCREEN_HEIGHT);
 
-
-    SDL_Texture* image =window.loadTexture("res/tankres/Hull_01_W.png");
-    Entity player1(0,320,"res/tankres/Hull_01_W.png");
-
+    Entity player1(0,320,"res/tankres/Hull_01_W.png",1 );
+    Entity player2(1216,320,"res/tankres/new_player/Hull_01_W.png",2);
     Map gamemap;
 
     gamemap.loadMap("res/map_level/map2.csv");
-    gamemap.loadTileSet("temp.png","res/blank.png");
-
-
-    Game NewGame;
-
+    gamemap.loadTileSet("temp.png","res/coin_blank.png");
     //////////////
     vector<ThreatObject*> threat_list = make_threat_list(gamemap);
      bool gameRunning= false;
@@ -96,104 +83,143 @@ int main(int argc,char* argv[])
     Button level2 = createButton("res/Menu/map2_button.png",BUTTON_X + BUTTON_MARGIN* 2,BUTTON_Y,window);
     Button mode_com = createButton("res/Menu/MODE COM.png",BUTTON_X,BUTTON_Y,window);
     Button mode_player = createButton("res/Menu/Mode Player.png",BUTTON_X + BUTTON_MARGIN* 2,BUTTON_Y,window);
+    Button help = createButton("res/Menu/help_button.png",BUTTON_X + BUTTON_MARGIN*2,BUTTON_Y,window);
     while(!quit)
     {
-        menu.runMenu(e,playButton,quitButton,quit,gameRunning,window,menu_pic);
+        if(!menu.tutorial)
+        {
+            menu.runMenu(e,playButton,quitButton,help,quit,gameRunning,window,menu_pic);
+        }
+
     }
     quit = false;
     while(!quit&& gameRunning)
     {
         menu.chooseMode(e,mode_com,mode_player,quitButton,quit,gameRunning,window,menu_pic);
+
     }
     quit = false;
-    while(!quit && gameRunning)
-    {
-        menu.chooseLevel(e,level1,level2,quitButton,quit,gameRunning,window,menu_pic,gamemap);
-    }
     if( menu.mode == 0)
     {
-        while(gameRunning )
+             while(!quit && gameRunning)
         {
-
-            frameStart=SDL_GetTicks();
-
-            SDL_RenderClear(window.renderer);
-
-                gamemap.drawMap();
-                //check event from keyboard or mouse
-                while( SDL_PollEvent( &e ) != 0 )
-                {
-
-                //User requests quit
-                            if( e.type == SDL_QUIT )
-                            {
-                                gameRunning=false;
-                            }
-
-                            //Handle input for player
-                            if(player1.is_alive)
-                            {
-                                player1.handleEvent(e);
-                                player1.handleInputAction(e,player1);
-                            }
-                            if(1 > 2 )
-                            {
-                                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,"Well played!","You won !",window.window);
-                                gameRunning = false;
-                                break;
-
-                            }
-                }
-
-
-                player1.handleBullet(gamemap,player1,threat_list);
-
-                for(int i = 0;i < enemy_quantity;i++)
-                {
-                    if(threat_list[i]->is_alive)
-                    {
-                        threat_list[i]->make_bullet(threat_list[i]);
-                        threat_list[i]->RandomShot(gamemap,player1,threat_list[i]);
-                        threat_list[i]->moveRandomly(gamemap,player1,threat_list[i],i,threat_list);
-                        threat_list[i]->render();
-                    }
-                }
-
-                if(player1.is_alive)
-                {
-                    player1.move(gamemap);
-                    player1.render(player1.tex);
-                }
-
-                if(!player1.is_alive)
-                {
-                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Game over!", "Better next time!",window.window);
-                    break;
-                }
-
-
-
-                frameTime =SDL_GetTicks() - frameStart;
-
-
-
-
-            if(frameDelay  > frameTime)
-            {
-                SDL_Delay(frameDelay - frameTime);
-            }
-
-            window.display();
-            window.clear();
+            menu.chooseLevel(e,level1,level2,quitButton,quit,gameRunning,window,menu_pic,gamemap);
         }
     }
 
+    if( menu.mode == 0) // play with bot
+    {
+        while(gameRunning )
+        {
+            SDL_RenderClear(window.renderer);
+
+                menu.runGameWithBot(e,gamemap,gameRunning,player1,threat_list,enemy_quantity,window);
+                if(!player1.is_alive)
+                {
+                    gameRunning = false;
+                }
+            Common_Func::handleFPS(FPS,frameDelay,frameStart,frameTime);
+            window.display();
+            window.clear();
+        }
+        if(player1.gain_coin)
+        {
+            menu_pic = window.loadTexture("res/Menu/WinBot.png");
+        }
+        else
+        {
+            menu_pic = window.loadTexture("res/Menu/LoseBot.png");
+        }
+        if(player1.gain_coin || !player1.is_alive)
+        {
+            quit = false;
+            quitButton.rect.x =  600;
+            quitButton.rect.y = 300;
+            SDL_Rect dest = { 0,0,1280,640};
+                while( !quit)
+                    {
+                        while (SDL_PollEvent(&e)) {
+                    // Nhấp chuột
+                        if (e.type == SDL_MOUSEBUTTONDOWN) {
+                         // Kiểm tra xem chuột có trên nút Quit không
+                            if (e.button.x >= quitButton.rect.x && e.button.x <= quitButton.rect.x + quitButton.rect.w
+                                && e.button.y >= quitButton.rect.y && e.button.y <= quitButton.rect.y + quitButton.rect.h) {
+
+                            quit = true;
+                            }
+                        }
+                        SDL_RenderCopy(window.renderer,menu_pic,NULL,&dest);
+                        SDL_RenderCopy(window.renderer,quitButton.texture,NULL,&quitButton.rect);
+                        window.display();
+                    }
+                }
+        }
+    }
+    if( menu.mode == 1)
+    {
+
+       while(gameRunning)
+       {
+
+
+                SDL_RenderClear(window.renderer);
+
+            menu.runGameWithPlayer(e,gamemap,gameRunning,player1,player2,window);
+            Common_Func::handleFPS(FPS,frameDelay,frameDelay,frameTime);
+            if(!player1.is_alive || !player2.is_alive)
+            {
+                gameRunning = false;
+            }
+            window.display();
+            window.clear();
+       }
+       if(!player1.is_alive || !player2.is_alive)
+
+        {
+            if(player1.is_alive)
+            {
+                menu_pic = window.loadTexture("res/Menu/Player1won.png");
+            }
+            else
+            {
+                menu_pic = window.loadTexture("res/Menu/Player2won.png");
+            }
+            quit = false;
+            quitButton.rect.x = 600;
+            quitButton.rect.y = 300;
+            SDL_Rect dest = { 0,0,1280,640};
+                while( !quit)
+                    {
+                        while (SDL_PollEvent(&e)) {
+                    // Nhấp chuột
+                        if (e.type == SDL_MOUSEBUTTONDOWN) {
+                         // Kiểm tra xem chuột có trên nút Quit không
+                            if (e.button.x >= quitButton.rect.x && e.button.x <= quitButton.rect.x + quitButton.rect.w
+                                && e.button.y >= quitButton.rect.y && e.button.y <= quitButton.rect.y + quitButton.rect.h) {
+
+                            quit = true;
+                            }
+                        }
+                        SDL_RenderCopy(window.renderer,menu_pic,NULL,&dest);
+                        SDL_RenderCopy(window.renderer,quitButton.texture,NULL,&quitButton.rect);
+                        window.display();
+                    }
+                }
+
+        }
+
+    }
     window.cleanUp();
     SDL_DestroyTexture(menu_pic);
     SDL_DestroyTexture(playButton.texture);
     SDL_DestroyTexture(quitButton.texture);
     SDL_DestroyTexture(level1.texture);
     SDL_DestroyTexture(level2.texture);
+    SDL_DestroyTexture(mode_com.texture);
+    SDL_DestroyTexture(mode_player.texture);
+    player1.clean();
+    threat_list[0]->clean(threat_list);
+
     return 0;
 }
 

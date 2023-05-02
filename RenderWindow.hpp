@@ -19,7 +19,7 @@ public:
     void clear();
     void render(SDL_Texture* tex);
     const static  int SCREEN_WIDTH=1280;
-    const static int SCREEN_HEIGHT=640;
+    const static int SCREEN_HEIGHT=640 ;
 
    void draw(SDL_Texture* tex,SDL_Rect src,SDL_Rect dest);
     void display();

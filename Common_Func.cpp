@@ -14,3 +14,12 @@ void Common_Func::draw(SDL_Texture* tex,SDL_Rect src,SDL_Rect dest)
 
     SDL_RenderCopy(RenderWindow::renderer,tex,&src,&dest);
 }
+void Common_Func::handleFPS(const int FPS,const int frameDelay,Uint32 frameStart,int& frameTime)
+{
+    frameStart=SDL_GetTicks();
+    frameTime =SDL_GetTicks() - frameStart;
+    if(frameDelay  > frameTime)
+    {
+        SDL_Delay(frameDelay - frameTime);
+    }
+}

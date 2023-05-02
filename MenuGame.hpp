@@ -24,7 +24,7 @@ public:
     MenuGame();
     ~MenuGame();
 
-    void runMenu(SDL_Event& e,Button playButton,Button quitButton
+    void runMenu(SDL_Event& e,Button playButton,Button quitButton,Button help
                  ,bool& quit,bool& gameRunning,
                  RenderWindow window,SDL_Texture* menu_pic);
 
@@ -34,7 +34,13 @@ public:
     void chooseMode( SDL_Event& e,Button mode_com,Button mode_player,Button quitButton
                     ,bool& quit,bool& gameRunning,
                     RenderWindow window,SDL_Texture* menu_pic);
-
+    void runGameWithBot(SDL_Event& e, Map& gamemap, bool& gameRunning,
+                        Entity& player1,std::vector<ThreatObject*> threat_list
+                        ,const int enemy_quantity,RenderWindow window
+                        );
+    void runGameWithPlayer(SDL_Event& e,Map& gamemap,bool& gameRunning,
+                        Entity& player1,Entity& player2,RenderWindow window);
     enum MODE{ COM,PLAYER};
     int mode ;
+    bool tutorial ;
 };

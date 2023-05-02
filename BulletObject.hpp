@@ -16,6 +16,7 @@ class BulletObject
 {
 public:
     BulletObject();
+    ~BulletObject();
     const int speed = 6;
     const int BULLET_SIZE = 32;
 

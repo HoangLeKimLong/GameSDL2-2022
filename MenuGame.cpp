@@ -1,5 +1,6 @@
 
 #include "MenuGame.hpp"
+#include "Common_Func.hpp"
 MenuGame::MenuGame()
 {
     mode = 10;
@@ -26,7 +27,11 @@ void MenuGame::runMenu(SDL_Event& e,Button playButton,Button quitButton,Button h
                     gameRunning = true;
                     quit = true;
                 }
-
+                // kiểm tra xem chuột có trên nút Help k
+                else if (e.button.x >=help.rect.x && e.button.x <= help.rect.x + help.rect.w
+                        && e.button.y >= help.rect.y && e.button.y <= help.rect.y + help.rect.h) {
+                    tutorial = true ;
+                }
 
 
 
@@ -58,11 +63,32 @@ void MenuGame::runMenu(SDL_Event& e,Button playButton,Button quitButton,Button h
         SDL_RenderCopy(window.renderer,menu_pic,NULL,&dest);
         SDL_RenderCopy(window.renderer, playButton.texture, NULL, &playButton.rect);
         SDL_RenderCopy(window.renderer, quitButton.texture, NULL, &quitButton.rect);
-
-
+        SDL_RenderCopy(window.renderer,help.texture,NULL , &help.rect);
         // Cập nhật màn hình
         SDL_RenderPresent(window.renderer);
         SDL_Delay(300);
+}
+void MenuGame::run_tutorial(SDL_Event& e,RenderWindow window,bool& quit,Button x_,bool& gameRunning)
+{
+    SDL_Texture* tur_pic = Common_Func::loadTexture("res/Menu/Tutorial.png");
+    SDL_Rect dest = {0,0,1280,640};
+    while(SDL_PollEvent(&e))
+    {
+        // Nhấp chuột
+        if (e.type == SDL_MOUSEBUTTONDOWN) {
+                // Kiểm tra xem chuột có trên nút X không
+                if (e.button.x >= x_.rect.x && e.button.x <= x_.rect.x + x_.rect.w
+                        && e.button.y >= x_.rect.y && e.button.y <= x_.rect.y + x_.rect.h) {
+                    std::cout << "Turn off tutorial!" << std::endl;
+                    tutorial = false;
+                }
+
+        }
+    }
+    SDL_RenderCopy(window.renderer,tur_pic,NULL,&dest);
+    SDL_RenderCopy(window.renderer,x_.texture,NULL,&x_.rect);
+    window.display();
+
 }
 void MenuGame::chooseMode(SDL_Event& e,Button mode_com,Button mode_player,Button quitButton
                           ,bool& quit,bool& gameRunning,

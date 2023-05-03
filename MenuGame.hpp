@@ -4,6 +4,7 @@
 #include <iostream>
 #include "RenderWindow.hpp"
 #include "Map.hpp"
+#include "Common_Func.hpp"
 // Các hằng số định nghĩa kích thước và vị trí của các nút
 const int BUTTON_WIDTH = 200;
 const int BUTTON_HEIGHT = 100;
@@ -17,7 +18,8 @@ struct Button
 
 };
 
-
+#define modeBot 0
+#define modePlayer 1
 class MenuGame
 {
 public:
@@ -40,6 +42,7 @@ public:
                         );
     void runGameWithPlayer(SDL_Event& e,Map& gamemap,bool& gameRunning,
                         Entity& player1,Entity& player2,RenderWindow window);
+    void run_tutorial(SDL_Event& e,RenderWindow window,bool& quit,Button x_,bool& gameRunning);
     enum MODE{ COM,PLAYER};
     int mode ;
     bool tutorial ;

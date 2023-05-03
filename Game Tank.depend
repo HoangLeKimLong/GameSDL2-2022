@@ -797,7 +797,7 @@
 1681564960 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\game.cpp
 	"Game.hpp"
 
-1683038407 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\main.cpp
+1683098285 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\main.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
@@ -815,15 +815,17 @@
 	"RenderWindow.hpp"
 	<bits/stdc++.h>
 
-1683038441 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.cpp
+1683098446 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.cpp
 	"MenuGame.hpp"
+	"Common_Func.hpp"
 
-1683038432 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.hpp
+1683098200 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.hpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
 	"RenderWindow.hpp"
 	"Map.hpp"
+	"Common_Func.hpp"
 
 1681564960 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\renderwindow.cpp
 	<SDL.h>

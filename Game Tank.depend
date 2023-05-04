@@ -757,7 +757,7 @@
 	"Entity.hpp"
 	<bits/stdc++.h>
 
-1682480714 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\renderwindow.hpp
+1683123578 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\renderwindow.hpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
@@ -797,10 +797,11 @@
 1681564960 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\game.cpp
 	"Game.hpp"
 
-1683098285 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\main.cpp
+1683202567 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\main.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
+	<SDL_mixer.h>
 	"RenderWindow.hpp"
 	"Entity.hpp"
 	"Map.hpp"
@@ -815,11 +816,11 @@
 	"RenderWindow.hpp"
 	<bits/stdc++.h>
 
-1683098446 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.cpp
+1683202547 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.cpp
 	"MenuGame.hpp"
 	"Common_Func.hpp"
 
-1683098200 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.hpp
+1683128179 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.hpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
@@ -827,11 +828,12 @@
 	"Map.hpp"
 	"Common_Func.hpp"
 
-1681564960 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\renderwindow.cpp
+1683123578 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\renderwindow.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
 	"RenderWindow.hpp"
+	"MenuGame.hpp"
 
 1682654121 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\textobject.cpp
 	"TextObject.hpp"

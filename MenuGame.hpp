@@ -42,7 +42,12 @@ public:
                         );
     void runGameWithPlayer(SDL_Event& e,Map& gamemap,bool& gameRunning,
                         Entity& player1,Entity& player2,RenderWindow window);
-    void run_tutorial(SDL_Event& e,RenderWindow window,bool& quit,Button x_,bool& gameRunning);
+    void run_tutorial(SDL_Event& e,RenderWindow window,bool& quit,Button x_,bool& gameRunning,SDL_Texture* tur_pic);
+    void renderResCom( SDL_Event& e,bool& quit,bool&gameRunning,Button& quitButton
+                      ,Entity& player1 ,SDL_Texture* menu_pic ,RenderWindow window);
+    void renderResPlayer(SDL_Event& e,bool& quit ,bool& gameRunning,
+                         Button& quitButton,Entity& player1,Entity& player2,
+                         SDL_Texture* menu_pic,RenderWindow window);
     enum MODE{ COM,PLAYER};
     int mode ;
     bool tutorial ;

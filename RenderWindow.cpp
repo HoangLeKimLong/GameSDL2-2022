@@ -2,6 +2,7 @@
 #include <SDL_image.h>
 #include <iostream>
 #include "RenderWindow.hpp"
+#include "MenuGame.hpp"
 const int step=10;
 SDL_Renderer* RenderWindow::renderer = nullptr;
 RenderWindow::RenderWindow(const char* p_title,int p_w,int p_h)
@@ -39,6 +40,7 @@ void RenderWindow ::cleanUp()
     SDL_DestroyRenderer(RenderWindow::renderer);
     SDL_DestroyWindow(window);
 }
+
 void RenderWindow::display()
 {
     SDL_RenderPresent(renderer);

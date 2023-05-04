@@ -10,6 +10,7 @@
 #include "Entity.hpp"
 
 using namespace std;
+class Entity;
 class RenderWindow
 {
 public:
@@ -21,11 +22,12 @@ public:
     const static  int SCREEN_WIDTH=1280;
     const static int SCREEN_HEIGHT=640 ;
 
-   void draw(SDL_Texture* tex,SDL_Rect src,SDL_Rect dest);
+    void draw(SDL_Texture* tex,SDL_Rect src,SDL_Rect dest);
     void display();
     void cleanUp();
     SDL_Window* window;
     static SDL_Renderer* renderer;
+
 private:
 
 };

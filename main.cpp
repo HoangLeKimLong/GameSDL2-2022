@@ -2,7 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
-
+#include <SDL_mixer.h>
 #include "RenderWindow.hpp"
 #include "Entity.hpp"
 #include "Map.hpp"
@@ -85,6 +85,7 @@ int main(int argc,char* argv[])
     Button mode_player = createButton("res/Menu/Mode Player.png",BUTTON_X + BUTTON_MARGIN* 2,BUTTON_Y,window);
     Button help = createButton("res/Menu/help_button.png",BUTTON_X + BUTTON_MARGIN*2,BUTTON_Y,window);
     Button x_ = createButton("res/Menu/x_button.png",1000,50,window);
+    SDL_Texture* tur_pic = Common_Func::loadTexture("res/Menu/Tutorial.png");
     while(!quit)
     {
         if(!menu.tutorial)
@@ -93,7 +94,7 @@ int main(int argc,char* argv[])
         }
         else
         {
-            menu.run_tutorial(e,window,quit,x_,gameRunning);
+            menu.run_tutorial(e,window,quit,x_,gameRunning,tur_pic);
         }
 
     }
@@ -101,12 +102,12 @@ int main(int argc,char* argv[])
         while(!quit&& gameRunning)
         {
             menu.chooseMode(e,mode_com,mode_player,quitButton,quit,gameRunning,window,menu_pic);
-
+            if(menu.mode == modePlayer) gamemap.loadMap("res/map_level/map_vs_p.csv");
         }
         quit = false;
-        if( menu.mode == 0)
+        if( menu.mode == modeBot)
         {
-                 while(!quit && gameRunning)
+            while(!quit && gameRunning)
             {
                 menu.chooseLevel(e,level1,level2,quitButton,quit,gameRunning,window,menu_pic,gamemap);
             }
@@ -116,106 +117,58 @@ int main(int argc,char* argv[])
         {
             while(gameRunning )
             {
-                SDL_RenderClear(window.renderer);
+                if(player1.is_alive && !player1.gain_coin)
+                {
+                    SDL_RenderClear(window.renderer);
 
                     menu.runGameWithBot(e,gamemap,gameRunning,player1,threat_list,enemy_quantity,window);
                     if(!player1.is_alive)
                     {
-                        gameRunning = false;
+                        continue;
                     }
-                Common_Func::handleFPS(FPS,frameDelay,frameStart,frameTime);
-                window.display();
-                window.clear();
-            }
-            if(player1.gain_coin)
-            {
-                menu_pic = window.loadTexture("res/Menu/WinBot.png");
-            }
-            else
-            {
-                menu_pic = window.loadTexture("res/Menu/LoseBot.png");
-            }
-            if(player1.gain_coin || !player1.is_alive)
-            {
-                quit = false;
-                quitButton.rect.x =  600;
-                quitButton.rect.y = 300;
-                SDL_Rect dest = { 0,0,1280,640};
-                    while( !quit)
-                        {
-                            while (SDL_PollEvent(&e)) {
-                        // Nhấp chuột
-                            if (e.type == SDL_MOUSEBUTTONDOWN) {
-                             // Kiểm tra xem chuột có trên nút Quit không
-                                if (e.button.x >= quitButton.rect.x && e.button.x <= quitButton.rect.x + quitButton.rect.w
-                                    && e.button.y >= quitButton.rect.y && e.button.y <= quitButton.rect.y + quitButton.rect.h) {
+                    Common_Func::handleFPS(FPS,frameDelay,frameStart,frameTime);
+                    window.display();
+                    window.clear();
+                }
+                else
+                {
+                    menu.renderResCom(e,quit,gameRunning,quitButton,player1,menu_pic,window);
+                    //menu.run_tutorial(e,window,quit,x_,gameRunning,tur_pic);
+                }
 
-                                quit = true;
-                                }
-                            }
-                            SDL_RenderCopy(window.renderer,menu_pic,NULL,&dest);
-                            SDL_RenderCopy(window.renderer,quitButton.texture,NULL,&quitButton.rect);
-                            window.display();
-                        }
-                    }
             }
+
+
+
         }
         if( menu.mode == modePlayer)
         {
 
-           while(gameRunning)
+            quitButton = createButton("res/Menu/quit_button.png",BUTTON_X + 120,BUTTON_Y + BUTTON_MARGIN,window);
+            while(gameRunning)
            {
 
-
-                    SDL_RenderClear(window.renderer);
-
-                menu.runGameWithPlayer(e,gamemap,gameRunning,player1,player2,window);
-                Common_Func::handleFPS(FPS,frameDelay,frameDelay,frameTime);
-                if(!player1.is_alive || !player2.is_alive)
+                if(player1.is_alive && player2.is_alive)
                 {
-                    gameRunning = false;
-                }
-                window.display();
-                window.clear();
-           }
-           if(!player1.is_alive || !player2.is_alive)
+                     SDL_RenderClear(window.renderer);
 
-            {
-                if(player1.is_alive)
-                {
-                    menu_pic = window.loadTexture("res/Menu/Player1won.png");
+                    menu.runGameWithPlayer(e,gamemap,gameRunning,player1,player2,window);
+                    Common_Func::handleFPS(FPS,frameDelay,frameDelay,frameTime);
+
+                    window.display();
+                    window.clear();
                 }
                 else
                 {
-                    menu_pic = window.loadTexture("res/Menu/Player2won.png");
+
+                    //menu.run_tutorial(e,window,quit,x_,gameRunning,tur_pic);
+                    menu.renderResPlayer(e,quit,gameRunning,quitButton,player1,player2,menu_pic,window);
                 }
-                quit = false;
-                quitButton.rect.x = 600;
-                quitButton.rect.y = 300;
-                SDL_Rect dest = { 0,0,1280,640};
-                    while( !quit)
-                        {
-                            while (SDL_PollEvent(&e)) {
-                        // Nhấp chuột
-                            if (e.type == SDL_MOUSEBUTTONDOWN) {
-                             // Kiểm tra xem chuột có trên nút Quit không
-                                if (e.button.x >= quitButton.rect.x && e.button.x <= quitButton.rect.x + quitButton.rect.w
-                                    && e.button.y >= quitButton.rect.y && e.button.y <= quitButton.rect.y + quitButton.rect.h) {
+           }
 
-                                quit = true;
-                                }
-                            }
-                            SDL_RenderCopy(window.renderer,menu_pic,NULL,&dest);
-                            SDL_RenderCopy(window.renderer,quitButton.texture,NULL,&quitButton.rect);
-                            window.display();
-                        }
-                    }
 
-            }
 
         }
-
-
     window.cleanUp();
     SDL_DestroyTexture(menu_pic);
     SDL_DestroyTexture(playButton.texture);

@@ -68,9 +68,9 @@ void MenuGame::runMenu(SDL_Event& e,Button playButton,Button quitButton,Button h
         SDL_RenderPresent(window.renderer);
         SDL_Delay(300);
 }
-void MenuGame::run_tutorial(SDL_Event& e,RenderWindow window,bool& quit,Button x_,bool& gameRunning)
+void MenuGame::run_tutorial(SDL_Event& e,RenderWindow window,bool& quit,Button x_,bool& gameRunning,SDL_Texture* tur_pic)
 {
-    SDL_Texture* tur_pic = Common_Func::loadTexture("res/Menu/Tutorial.png");
+
     SDL_Rect dest = {0,0,1280,640};
     while(SDL_PollEvent(&e))
     {
@@ -83,6 +83,10 @@ void MenuGame::run_tutorial(SDL_Event& e,RenderWindow window,bool& quit,Button x
                     tutorial = false;
                 }
 
+        }
+        if( e.type == SDL_QUIT)
+        {
+            gameRunning = false;
         }
     }
     SDL_RenderCopy(window.renderer,tur_pic,NULL,&dest);
@@ -221,7 +225,6 @@ void MenuGame::runGameWithBot(SDL_Event& e,Map& gamemap
                                player1.posY  <=  32 * 10 - 15)
                             {
                                 player1.gain_coin = true;
-                                gameRunning =false;
                                 break;
 
                             }
@@ -288,10 +291,93 @@ void MenuGame::runGameWithPlayer(SDL_Event& e,Map& gamemap,bool& gameRunning,
                     player1.move(gamemap);
                     player1.render(player1.tex);
                 }
+
                 if(player2.is_alive)
                 {
                     player2.move(gamemap);
                     player2.render(player2.tex);
                 }
+
+
+}
+void MenuGame::renderResCom(SDL_Event& e,bool& quit,bool& gameRunning,Button& quitButton,
+                            Entity& player1,SDL_Texture* menu_pic,RenderWindow window)
+{
+    if(player1.gain_coin)
+        {
+            menu_pic = window.loadTexture("res/Menu/WinBot.png");
+        }
+    else
+        {
+            menu_pic = window.loadTexture("res/Menu/LoseBot.png");
+        }
+    if(player1.gain_coin || !player1.is_alive)
+        {
+            quit = false;
+            quitButton.rect.x =  600;
+            quitButton.rect.y = 300;
+            SDL_Rect dest = { 0,0,1280,640};
+                while(SDL_PollEvent(&e))
+                {
+                // Nhấp chuột
+                    if (e.type == SDL_MOUSEBUTTONDOWN)
+                    {
+                    // Kiểm tra xem chuột có trên nút quit không
+                            if (e.button.x >= quitButton.rect.x && e.button.x <= quitButton.rect.x + quitButton.rect.w
+                            && e.button.y >= quitButton.rect.y && e.button.y <= quitButton.rect.y + quitButton.rect.h) {
+                            gameRunning = false;
+                        }
+
+                    }
+                    if( e.type == SDL_QUIT)
+                    {
+                        gameRunning = false;
+                    }
+                }
+        SDL_RenderCopy(window.renderer,menu_pic,NULL,&dest);
+        SDL_RenderCopy(window.renderer,quitButton.texture,NULL,&quitButton.rect);
+        window.display();
+        }
+}
+void MenuGame::renderResPlayer(SDL_Event& e,bool& quit,bool& gameRunning,Button& quitButton,
+                               Entity& player1,Entity& player2,
+                               SDL_Texture* menu_pic,RenderWindow window)
+{
+    if(!player1.is_alive || !player2.is_alive)
+
+    {
+
+                if(player1.is_alive)
+                {
+                    menu_pic = window.loadTexture("res/Menu/Player1won.png");
+                }
+                else
+                {
+                    menu_pic = window.loadTexture("res/Menu/Player2won.png");
+                }
+                SDL_Rect dest = {0,0,1280,640};
+                while(SDL_PollEvent(&e))
+                {
+                // Nhấp chuột
+                    if (e.type == SDL_MOUSEBUTTONDOWN)
+                    {
+                    // Kiểm tra xem chuột có trên nút quit không
+                            if (e.button.x >= quitButton.rect.x && e.button.x <= quitButton.rect.x + quitButton.rect.w
+                            && e.button.y >= quitButton.rect.y && e.button.y <= quitButton.rect.y + quitButton.rect.h) {
+                            gameRunning = false;
+                        }
+
+                    }
+                    if( e.type == SDL_QUIT)
+                    {
+                        gameRunning = false;
+                    }
+                }
+        SDL_RenderCopy(window.renderer,menu_pic,NULL,&dest);
+        SDL_RenderCopy(window.renderer,quitButton.texture,NULL,&quitButton.rect);
+        window.display();
+
+    }
+
 
 }

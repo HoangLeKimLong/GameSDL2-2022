@@ -7,7 +7,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "BulletObject.hpp"
-
+const int enemy_quantity = 3;
 class Map;
 class Entity;
 class BulletObject;
@@ -62,3 +62,4 @@ public:
 private:
     std::vector<BulletObject*> bullet_list;
 };
+vector<ThreatObject*> make_threat_list(Map& gamemap);

@@ -1,6 +1,26 @@
 
 #include "MenuGame.hpp"
 #include "Common_Func.hpp"
+Button createButton(const char* imagePath, int x, int y,RenderWindow window) {
+        // Tạo nút mới
+        Button button;
+
+        // Tải hình ảnh và chuyển đổi thành texture
+        button.texture = window.loadTexture(imagePath);
+        if (button.texture == NULL) {
+            std::cout << "Failed to load button image"<<endl;
+        }
+
+    // Lấy thông tin kích thước của texture
+    SDL_QueryTexture(button.texture, NULL, NULL, &button.rect.w, &button.rect.h);
+
+    // Đặt vị trí của nút
+    button.rect.x = x;
+    button.rect.y = y;
+
+    return button;
+}
+
 MenuGame::MenuGame()
 {
     mode = 10;
@@ -66,7 +86,7 @@ void MenuGame::runMenu(SDL_Event& e,Button playButton,Button quitButton,Button h
         SDL_RenderCopy(window.renderer,help.texture,NULL , &help.rect);
         // Cập nhật màn hình
         SDL_RenderPresent(window.renderer);
-        SDL_Delay(300);
+        SDL_Delay(10);
 }
 void MenuGame::run_tutorial(SDL_Event& e,RenderWindow window,bool& quit,Button x_,bool& gameRunning,SDL_Texture* tur_pic)
 {

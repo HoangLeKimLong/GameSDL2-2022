@@ -4,6 +4,24 @@
 #include <cmath>
 #include <SDL.h>
 #include <vector>
+vector<ThreatObject*> make_threat_list(Map& gamemap)
+{
+    vector<ThreatObject*> list_threat;
+    for(int i = 0;i < enemy_quantity;i++)
+    {
+        ThreatObject* p_object = new ThreatObject[enemy_quantity];
+        p_object->rect.x = 1000;
+        p_object->rect.y = 280*i;
+        while(p_object->checkToMap(gamemap))
+        {
+            p_object->rect.y += 200;
+        }
+
+        list_threat.push_back(p_object);
+
+    }
+    return list_threat;
+}
 ThreatObject::ThreatObject()
 {
     rect.x = 0;

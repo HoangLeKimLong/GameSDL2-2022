@@ -175,7 +175,6 @@ void Entity::render(SDL_Texture* tex)
     tex = NULL;
     SDL_DestroyTexture(tex);
 
-    delete tex;
 
 }
 void Entity::handleInputAction(SDL_Event& event, Entity& player)
@@ -294,7 +293,7 @@ void Entity::handleBullet(Map& gamemap,Entity& player,vector<ThreatObject*> thre
 void Entity::handleBullet(Map& gamemap,Entity& player ,Entity& component)
 {
 
-    for(int i=0;i< p_bullet_list.size();i++)
+    for(int i=0;i< (int)p_bullet_list.size();i++)
     {
         BulletObject* p_bullet = p_bullet_list.at(i);
         if( p_bullet == nullptr)

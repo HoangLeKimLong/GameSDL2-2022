@@ -5,6 +5,8 @@
 #include "RenderWindow.hpp"
 #include "Map.hpp"
 #include "Common_Func.hpp"
+#define modeBot 0
+#define modePlayer 1
 // Các hằng số định nghĩa kích thước và vị trí của các nút
 const int BUTTON_WIDTH = 200;
 const int BUTTON_HEIGHT = 100;
@@ -17,9 +19,8 @@ struct Button
     SDL_Rect rect;
 
 };
+Button createButton(const char* imagePath, int x, int y,RenderWindow window);
 
-#define modeBot 0
-#define modePlayer 1
 class MenuGame
 {
 public:

@@ -757,7 +757,7 @@
 	"Entity.hpp"
 	<bits/stdc++.h>
 
-1683123578 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\renderwindow.hpp
+1683385233 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\renderwindow.hpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
@@ -769,7 +769,7 @@
 	"Entity.hpp"
 	"BulletObject.hpp"
 
-1682611086 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\threatobject.hpp
+1683381878 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\threatobject.hpp
 	<bits/stdc++.h>
 	"RenderWindow.hpp"
 	"Map.hpp"
@@ -788,7 +788,7 @@
 	"Common_Func.hpp"
 	"RenderWindow.hpp"
 
-1682849186 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\entity.cpp
+1683381582 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\entity.cpp
 	"Entity.hpp"
 	"RenderWindow.hpp"
 	"Common_Func.hpp"
@@ -797,11 +797,11 @@
 1681564960 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\game.cpp
 	"Game.hpp"
 
-1683202567 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\main.cpp
+1683384021 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\main.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
-	<SDL_mixer.h>
+	"Audio.hpp"
 	"RenderWindow.hpp"
 	"Entity.hpp"
 	"Map.hpp"
@@ -816,11 +816,11 @@
 	"RenderWindow.hpp"
 	<bits/stdc++.h>
 
-1683202547 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.cpp
+1683384104 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.cpp
 	"MenuGame.hpp"
 	"Common_Func.hpp"
 
-1683128179 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.hpp
+1683384142 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.hpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
@@ -848,7 +848,7 @@
 	"ThreatObject.hpp"
 	"RenderWindow.hpp"
 
-1683037520 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\threatobject.cpp
+1683382406 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\threatobject.cpp
 	"ThreatObject.hpp"
 	"Common_Func.hpp"
 	"RenderWindow.hpp"
@@ -1274,4 +1274,7 @@
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
+
+1683382970 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\audio.hpp
+	"SDL_mixer.h"
 

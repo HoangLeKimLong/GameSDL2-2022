@@ -10,6 +10,9 @@
 #include "Entity.hpp"
 
 using namespace std;
+const int FPS = 60;
+const int frameDelay= 1000/ FPS;
+
 class Entity;
 class RenderWindow
 {

@@ -757,7 +757,7 @@
 	"Entity.hpp"
 	<bits/stdc++.h>
 
-1683385233 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\renderwindow.hpp
+1683475743 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\renderwindow.hpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
@@ -797,11 +797,10 @@
 1681564960 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\game.cpp
 	"Game.hpp"
 
-1683471053 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\main.cpp
+1683471794 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\main.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
-	<SDL_mixer.h>
 	"RenderWindow.hpp"
 	"Entity.hpp"
 	"Map.hpp"

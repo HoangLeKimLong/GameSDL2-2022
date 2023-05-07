@@ -1,12 +1,7 @@
-#ifndef RENDER_WINDOW_
-#define RENDER_WINDOW_
-
-
-
 #pragma once
 #include <SDL.h>
-#include<SDL_image.h>
-#include<iostream>
+#include <SDL_image.h>
+#include <iostream>
 #include "Entity.hpp"
 
 using namespace std;
@@ -34,4 +29,4 @@ public:
 private:
 
 };
-#endif // RENDER_WINDOW_
+

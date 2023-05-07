@@ -47,7 +47,6 @@
 			<Add option="-Imingw-32 -ISDL2  -ISDL2_main -ISDL2_mixer  -ISDL2_image" />
 			<Add directory="D:/setupSDLlib/SDL2_mixer-2.6.3/i686-w64-mingw32/lib" />
 		</Linker>
-		<Unit filename="Audio.hpp" />
 		<Unit filename="BulletObject.cpp" />
 		<Unit filename="BulletObject.hpp" />
 		<Unit filename="Common_Func.cpp" />

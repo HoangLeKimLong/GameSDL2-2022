@@ -57,6 +57,8 @@ public:
     int lives;
     Uint32 last_bullet_time;
     int index_player ;
+    bool MovingLeftRight;
+    bool MovingUpDown ;
 private:
     vector<BulletObject*> p_bullet_list;
 };

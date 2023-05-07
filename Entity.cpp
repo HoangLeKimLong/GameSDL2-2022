@@ -17,6 +17,8 @@ Entity::Entity(int posX_ , int posY_ ,const char* file,int index_p)
     last_bullet_time = SDL_GetTicks();
     index_player = index_p;
     gain_coin = false;
+    MovingLeftRight = false;
+    MovingUpDown = false;
 }
 void Entity::handleEvent(SDL_Event& event)
 {
@@ -32,22 +34,29 @@ void Entity::handleEvent(SDL_Event& event)
                         SDL_DestroyTexture(tex);
                         tex=Common_Func::loadTexture("res/tankres/Hull_01_W.png");
                         status = UP;
-
+                        MovingUpDown = true;
+                        MovingLeftRight = false;
                         break;
             case SDLK_s:velY+=step;
                         SDL_DestroyTexture(tex);
                         tex=Common_Func::loadTexture("res/tankres/Hull_01_S.png");
                         status = DOWN;
+                        MovingUpDown = true;
+                        MovingLeftRight = false;
                         break;
             case SDLK_a: velX-=step;
                         SDL_DestroyTexture(tex);
                         tex=Common_Func::loadTexture("res/tankres/Hull_01_A.png");
                         status = LEFT;
+                        MovingLeftRight = true;
+                        MovingUpDown = false;
                         break;
             case SDLK_d: velX+=step;
                         SDL_DestroyTexture(tex);
                         tex=Common_Func::loadTexture("res/tankres/Hull_01_D.png");
                         status = RIGHT;
+                        MovingLeftRight = true;
+                        MovingUpDown = false;
                         break;
 
 
@@ -59,10 +68,18 @@ void Entity::handleEvent(SDL_Event& event)
             //Adjust the velocity
             switch(event.key.keysym.sym)
             {
-            case SDLK_w: velY+=step; break;
-            case SDLK_s: velY-=step; break;
-            case SDLK_a: velX+=step; break;
-            case SDLK_d: velX-=step; break;
+            case SDLK_w: velY+=step;
+                        MovingUpDown = false;
+                        break;
+            case SDLK_s: velY-=step;
+                        MovingUpDown = false;
+                        break;
+            case SDLK_a: velX+=step;
+                        MovingLeftRight = false;
+                        break;
+            case SDLK_d: velX-=step;
+                        MovingLeftRight = false;
+                        break;
             }
         }
     }
@@ -77,22 +94,29 @@ void Entity::handleEvent(SDL_Event& event)
                         SDL_DestroyTexture(tex);
                         tex=Common_Func::loadTexture("res/tankres/new_player/Hull_01_W.png");
                         status = UP;
-
+                        MovingUpDown = true;
+                        MovingLeftRight = false;
                         break;
             case SDLK_DOWN:velY+=step;
                         SDL_DestroyTexture(tex);
                         tex=Common_Func::loadTexture("res/tankres/new_player/Hull_01_S.png");
                         status = DOWN;
+                        MovingUpDown = true;
+                        MovingLeftRight = false;
                         break;
             case SDLK_LEFT: velX-=step;
                         SDL_DestroyTexture(tex);
                         tex=Common_Func::loadTexture("res/tankres/new_player/Hull_01_A.png");
                         status = LEFT;
+                        MovingLeftRight = true;
+                        MovingUpDown = false;
                         break;
             case SDLK_RIGHT: velX+=step;
                         SDL_DestroyTexture(tex);
                         tex=Common_Func::loadTexture("res/tankres/new_player/Hull_01_D.png");
                         status = RIGHT;
+                        MovingLeftRight = true;
+                        MovingUpDown = false;
                         break;
 
 
@@ -104,10 +128,18 @@ void Entity::handleEvent(SDL_Event& event)
             //Adjust the velocity
             switch(event.key.keysym.sym)
             {
-            case SDLK_UP: velY+=step; break;
-            case SDLK_DOWN: velY-=step; break;
-            case SDLK_LEFT: velX+=step; break;
-            case SDLK_RIGHT: velX-=step; break;
+            case SDLK_UP: velY+=step;
+                        MovingUpDown = false;
+                        break;
+            case SDLK_DOWN: velY-=step;
+                        MovingUpDown = false;
+                        break;
+            case SDLK_LEFT: velX+=step;
+                        MovingLeftRight = false;
+                        break;
+            case SDLK_RIGHT: velX-=step;
+                        MovingLeftRight = false;
+                        break;
             }
         }
     }
@@ -118,7 +150,12 @@ void Entity::move(Map& gamemap)
     lastPosX=posX;
     lastPosY=posY;
     //move left or right
-    posX+=velX;
+    if(!MovingUpDown)
+    {
+        MovingLeftRight = true;
+        posX+=velX;
+    }
+
     //If the tank went too far to the right or left
     if( ( posX  < 0  ) || ( posX + PLAYER_WIDTH  + 30  > RenderWindow::SCREEN_WIDTH  ) )
     {
@@ -126,7 +163,12 @@ void Entity::move(Map& gamemap)
         posX -= velX;
     }
     //move up or down
-    posY+=velY;
+    if(!MovingLeftRight)
+    {
+         MovingUpDown = true;
+         posY+=velY;
+    }
+
     //If the tank went too far to the up or down
     if( ( posY < 0  )  || (posY + PLAYER_HEIGHT  + 30 > RenderWindow::SCREEN_HEIGHT ) )
     {
@@ -140,6 +182,7 @@ void Entity::move(Map& gamemap)
             posX=lastPosX;
             posY=lastPosY;
         }
+
 }
 
 

@@ -788,7 +788,7 @@
 	"Common_Func.hpp"
 	"RenderWindow.hpp"
 
-1683448302 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\entity.cpp
+1683448613 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\entity.cpp
 	"Entity.hpp"
 	"RenderWindow.hpp"
 	"Common_Func.hpp"
@@ -797,10 +797,11 @@
 1681564960 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\game.cpp
 	"Game.hpp"
 
-1683385312 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\main.cpp
+1683471053 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\main.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
+	<SDL_mixer.h>
 	"RenderWindow.hpp"
 	"Entity.hpp"
 	"Map.hpp"
@@ -815,7 +816,7 @@
 	"RenderWindow.hpp"
 	<bits/stdc++.h>
 
-1683384104 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.cpp
+1683469753 source:c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\menugame.cpp
 	"MenuGame.hpp"
 	"Common_Func.hpp"
 
@@ -871,7 +872,7 @@
 1682258249 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\playertwo.hpp
 	"Entity.hpp"
 
-1675731439 d:\setupsdllib\sdl2_mixer-2.6.3\i686-w64-mingw32\include\sdl2\sdl_mixer.h
+1675677438 d:\setupsdllib\sdl2_mixer-2.6.3\i686-w64-mingw32\include\sdl2\sdl_mixer.h
 	"SDL_stdinc.h"
 	"SDL_rwops.h"
 	"SDL_audio.h"
@@ -1274,6 +1275,6 @@
 	"begin_code.h"
 	"close_code.h"
 
-1683382970 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\audio.hpp
+1683469809 c:\users\hd\desktop\learnsdl\learngit\gamesdl2-2022\audio.hpp
 	"SDL_mixer.h"
 

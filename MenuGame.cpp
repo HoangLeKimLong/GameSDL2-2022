@@ -23,7 +23,7 @@ Button createButton(const char* imagePath, int x, int y,RenderWindow window) {
 
 MenuGame::MenuGame()
 {
-    mode = 10;
+    mode = 10; //chua chon mođe
     tutorial = false;
 }
 MenuGame::~MenuGame()
@@ -86,7 +86,7 @@ void MenuGame::runMenu(SDL_Event& e,Button playButton,Button quitButton,Button h
         SDL_RenderCopy(window.renderer,help.texture,NULL , &help.rect);
         // Cập nhật màn hình
         SDL_RenderPresent(window.renderer);
-        SDL_Delay(10);
+
 }
 void MenuGame::run_tutorial(SDL_Event& e,RenderWindow window,bool& quit,Button x_,bool& gameRunning,SDL_Texture* tur_pic)
 {

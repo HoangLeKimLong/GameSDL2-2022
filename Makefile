@@ -18,3 +18,7 @@ LINKER_FLAGS =  -Imingw32 -ISDL2main -ISDL2 -ISDL2_image
 
 #OBJ_NAME specifies the name of our exectuable
 OBJ_NAME SDL_Platform.exe
+
+#This is the target that compiles our executable
+all : $(OBJS)
+	$(CC) $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)

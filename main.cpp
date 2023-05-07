@@ -1,7 +1,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
-//#include "Audio.hpp"
+
 #include "RenderWindow.hpp"
 #include "Entity.hpp"
 #include "Map.hpp"
@@ -17,6 +17,7 @@ int frameTime;
 int main(int argc,char* argv[])
 {
     //init window
+
     SDL_Init(SDL_INIT_EVERYTHING);
     SDL_Event e;
 

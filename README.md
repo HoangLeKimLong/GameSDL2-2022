@@ -5,6 +5,6 @@ A game project for Advanced Programing assignment at university.
 
 - Download or clone this repo to your device.
 - Install [Mingw-w64](https://sourceforge.net/projects/mingw-w64/files/).
-
+- Right-click to file SDL_Platform.exe to play and enjoy it.
 <h3> In case something wrong happens when you open .exe file,follow these step : </h3>
 

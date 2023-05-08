@@ -30,7 +30,7 @@ ThreatObject::ThreatObject()
     rect.h =64;
     enemy_tex = Common_Func::loadTexture("res/Enemy_res/Hull_04_UP.png");
     status_val = DOWN_;
-    int lives = 2;
+    lives = 1;
     is_alive = true;
     last_bullet_time = SDL_GetTicks();
 }

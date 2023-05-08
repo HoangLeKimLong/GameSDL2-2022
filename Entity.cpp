@@ -414,7 +414,12 @@ bool Entity::meet_enemy(BulletObject* p_bullet,ThreatObject* p_threat)
             p_threat->rect.y + p_threat->rect.h - 20> p_bullet->rect.y
             )
             {
-                    p_threat->is_alive = false;
+                    p_threat->lives--;
+                    cout << p_threat->lives <<endl;
+                    if(p_threat->lives == 0)
+                    {
+                        p_threat->is_alive = false;
+                    }
                     return true;
 
             }
